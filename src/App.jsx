@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 
 export const goods = [
   'Dumplings',
@@ -16,25 +16,21 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [value, setValue] = useState('Jam');
+  const [value, selectedGood] = useState('Jam');
 
   return (
     <main className="section container">
-      {value === '' ? (
-        <h1 className="title is-flex is-align-items-center">
-          No goods selected
-        </h1>
-      ) : (
-        <h1 className="title is-flex is-align-items-center">
-          {value} is selected
+      <h1 className="title is-flex is-align-items-center">
+        {value === '' ? 'No goods selected' : `${value} is selected`}
+        {value && (
           <button
-            onClick={() => setValue('')}
+            onClick={() => selectedGood('')}
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
           />
-        </h1>
-      )}
+        )}
+      </h1>
 
       <table className="table">
         <tbody>
@@ -42,12 +38,12 @@ export const App = () => {
             <tr
               data-cy="Good"
               key={good}
-              className={value === good && 'has-background-success-light'}
+              className={value === good ? 'has-background-success-light' : ''}
             >
               <td>
                 {value === good ? (
                   <button
-                    onClick={() => setValue('')}
+                    onClick={() => selectedGood('')}
                     data-cy="RemoveButton"
                     type="button"
                     className="button is-info"
@@ -56,7 +52,7 @@ export const App = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => setValue(good)}
+                    onClick={() => selectedGood(good)}
                     data-cy="AddButton"
                     type="button"
                     className="button"
